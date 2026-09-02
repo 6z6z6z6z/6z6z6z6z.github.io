@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { ArrowUpRight, Download, Mail, MapPin } from 'lucide-react';
+import { PretextResearchNote } from './components/pretext-research-note';
 
 const navItems = [
   { label: 'About', href: '#about' },
@@ -74,6 +75,8 @@ export default function Home() {
               <article><span>03</span><h3>Evaluate</h3><p>Build reproducible systems whose gains, limitations, and failure modes can be examined.</p></article>
             </div>
           </section>
+
+          <PretextResearchNote />
 
           <section className="projects-section" id="projects" aria-labelledby="projects-title">
             <div className="section-title-row">
