@@ -3,28 +3,28 @@ import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://6z6z6z6z.github.io'),
-  title: '张荘 | AI & Data Science',
-  description: '中国科学技术大学人工智能与数据科学学院本科生张荘的个人主页：多模态表征、时间序列建模、RAG 与大模型智能体。',
+  title: 'Zhuang Zhang | AI & Data Science',
+  description: 'Academic homepage of Zhuang Zhang, an undergraduate researcher at USTC working on multimodal representation, time-series learning, retrieval-augmented AI, and foundation models.',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
-    locale: 'zh_CN',
+    locale: 'en_US',
     url: '/',
-    title: '张荘 | AI & Data Science',
-    description: '多模态表征、时间序列建模、RAG 与大模型智能体。',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: '张荘 · AI & Data Science' }],
+    title: 'Zhuang Zhang | AI & Data Science',
+    description: 'Multimodal representation, time-series learning, retrieval-augmented AI, and foundation models.',
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Zhuang Zhang · AI & Data Science' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '张荘 | AI & Data Science',
-    description: '多模态表征、时间序列建模、RAG 与大模型智能体。',
+    title: 'Zhuang Zhang | AI & Data Science',
+    description: 'Multimodal representation, time-series learning, retrieval-augmented AI, and foundation models.',
     images: ['/og.png'],
   },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <body>
         {children}
         <script
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Person',
-              name: '张荘',
+              name: 'Zhuang Zhang',
               url: 'https://6z6z6z6z.github.io',
               image: 'https://6z6z6z6z.github.io/avatar.png',
               email: 'mailto:zz6666@mail.ustc.edu.cn',

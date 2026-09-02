@@ -1,10 +1,10 @@
-# 张荘 · Personal Homepage
+# Zhuang Zhang · Academic Homepage
 
-Personal academic homepage for **张荘**, an undergraduate student at the School of Artificial Intelligence and Data Science, University of Science and Technology of China.
+Personal academic homepage for **Zhuang Zhang**, an undergraduate student at the School of Artificial Intelligence and Data Science, University of Science and Technology of China.
 
 ## Highlights
 
-- Claude-inspired warm, editorial visual system
+- Warm editorial design adapted for an early-career academic portfolio
 - Responsive single-page research portfolio
 - Selected work, experience, education, honors, and contact information
 - Static export with automated GitHub Pages deployment
@@ -28,3 +28,7 @@ The static output is generated in `dist/client`.
 ## Deployment
 
 Every push to `main` triggers `.github/workflows/deploy-pages.yml` and publishes the site to GitHub Pages.
+
+## Design acknowledgement
+
+The information architecture and editorial direction are inspired by Sirui Zou's MIT-licensed [Academic Homepage](https://github.com/siruizou2005/academic-homepage). See `THIRD_PARTY_NOTICES.md`.
