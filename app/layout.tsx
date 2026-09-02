@@ -35,7 +35,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               '@type': 'Person',
               name: 'Zhuang Zhang',
               url: 'https://6z6z6z6z.github.io',
-              image: 'https://6z6z6z6z.github.io/avatar.png',
+              image: 'https://6z6z6z6z.github.io/profile.jpg',
               email: 'mailto:zz6666@mail.ustc.edu.cn',
               affiliation: {
                 '@type': 'CollegeOrUniversity',

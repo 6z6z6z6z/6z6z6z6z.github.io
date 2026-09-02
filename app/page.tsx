@@ -3,7 +3,7 @@ import { ArrowUpRight, Download, Mail, MapPin } from 'lucide-react';
 
 const navItems = [
   { label: 'About', href: '#about' },
-  { label: 'Research', href: '#research' },
+  { label: 'Projects', href: '#projects' },
   { label: 'Experience', href: '#experience' },
   { label: 'Education', href: '#education' },
 ];
@@ -24,7 +24,7 @@ export default function Home() {
       <div className="academic-layout">
         <aside className="profile-card" aria-label="Profile">
           <div className="portrait">
-            <Image src="/avatar.png" alt="Portrait of Zhuang Zhang" fill priority sizes="240px" />
+            <Image src="/profile.jpg" alt="Zhuang Zhang at Huangshan" fill priority sizes="240px" />
           </div>
           <div>
             <h2>Zhuang Zhang</h2>
@@ -38,27 +38,27 @@ export default function Home() {
           </div>
           <div className="profile-topics">
             <span>Research interests</span>
-            <p>Multimodal Representation</p>
-            <p>Time-Series Learning</p>
-            <p>Retrieval-Augmented AI</p>
             <p>Foundation Models</p>
+            <p>Multimodal Learning</p>
+            <p>AI Agents</p>
+            <p>Reliable Machine Learning</p>
           </div>
         </aside>
 
         <div className="content-column">
           <section className="intro" id="about">
             <p className="section-label">ABOUT</p>
-            <h1>I build retrieval-centered representations for multimodal intelligence.</h1>
+            <h1>I explore how foundation models can understand, connect, and act on complex information.</h1>
             <div className="intro-copy">
               <p>
                 I am an undergraduate student at the University of Science and Technology of China (USTC),
-                studying Data Science and Big Data Technology. My work asks a simple question: if an AI system
-                can retrieve the right precedent, can prediction and decision-making become simpler and more reliable?
+                studying Data Science and Big Data Technology. I am interested in foundation models, multimodal
+                learning, intelligent agents, and the representations that allow models to work across different data types.
               </p>
               <p>
-                I explore this question through time-series representation learning, multimodal context,
-                retrieval-augmented generation, and reproducible model evaluation. I enjoy turning an early research
-                idea into a complete system with explicit assumptions, ablations, and evidence.
+                My past projects span time-series learning, retrieval-augmented modeling, and personalized speech
+                generation. I enjoy turning an early idea into a complete, testable system and learning from both
+                successful and unsuccessful experiments.
               </p>
             </div>
             <div className="status-line"><i /> Open to graduate research opportunities</div>
@@ -66,77 +66,22 @@ export default function Home() {
 
           <section className="agenda" aria-labelledby="agenda-title">
             <div className="section-title-row compact-title">
-              <div><p className="section-label">RESEARCH AGENDA</p><h2 id="agenda-title">What I want representations to do</h2></div>
+              <div><p className="section-label">INTERESTS</p><h2 id="agenda-title">How I approach AI research</h2></div>
             </div>
             <div className="agenda-grid">
-              <article><span>01</span><h3>Retrieve</h3><p>Organize complex signals into a space where useful precedents can be found efficiently.</p></article>
-              <article><span>02</span><h3>Understand context</h3><p>Distinguish superficial resemblance from similarities in mechanism, state, and task utility.</p></article>
-              <article><span>03</span><h3>Support decisions</h3><p>Test whether better neighbors lead to measurable gains in forecasting and classification.</p></article>
+              <article><span>01</span><h3>Represent</h3><p>Learn useful structures from numerical, textual, and multimodal signals.</p></article>
+              <article><span>02</span><h3>Reason &amp; act</h3><p>Use foundation models and agents to connect information with concrete tasks.</p></article>
+              <article><span>03</span><h3>Evaluate</h3><p>Build reproducible systems whose gains, limitations, and failure modes can be examined.</p></article>
             </div>
           </section>
 
-          <section className="research-section" id="research">
+          <section className="projects-section" id="projects" aria-labelledby="projects-title">
             <div className="section-title-row">
-              <div><p className="section-label">SELECTED RESEARCH</p><h2>ContextMTS-Retriever</h2></div>
-              <span>2026</span>
-            </div>
-
-            <article className="featured-project">
-              <div className="project-intro">
-                <p className="project-type">Context-enhanced multimodal time-series retrieval</p>
-                <h3>Finding histories that share not only a shape, but also a situation.</h3>
-                <p>
-                  Numerical similarity alone may retrieve curves that look alike but arise from different events.
-                  I designed a retrieval pipeline that combines shape, temporal dynamics, and factual context to
-                  identify historical cases whose future trajectories are genuinely useful for forecasting.
-                </p>
-                <div className="evidence-row" aria-label="Retrieval evidence">
-                  <span><b>01</b> Shape</span><span><b>02</b> Dynamics</span><span><b>03</b> Context</span>
-                </div>
-              </div>
-
-              <div className="result-card">
-                <p>Forecasting error · MASE ↓</p>
-                <div className="result-number">0.7328</div>
-                <div className="comparison">
-                  <div><span>Raw cosine</span><i style={{ width: '88%' }} /><b>0.8842</b></div>
-                  <div className="is-ours"><span>Context-aware</span><i style={{ width: '73%' }} /><b>0.7328</b></div>
-                </div>
-                <footer><strong>17.1% lower</strong><span>297 chronological queries</span></footer>
-              </div>
-
-              <div className="project-foot">
-                <p><strong>Language model.</strong> Frozen Qwen3-0.6B encodes fact-only context available at retrieval time.</p>
-                <p><strong>Forecast transfer.</strong> The selected neighbors contribute their normalized future changes to the query forecast.</p>
-                <a href="https://github.com/6z6z6z6z/ContextMTS-Retriever" target="_blank" rel="noreferrer">
-                  Project repository <ArrowUpRight size={14} />
-                </a>
-              </div>
-            </article>
-          </section>
-
-          <section className="projects-section" aria-labelledby="projects-title">
-            <div className="section-title-row">
-              <div><p className="section-label">OTHER PROJECTS</p><h2 id="projects-title">Systems I have built</h2></div>
+              <div><p className="section-label">PROJECTS</p><h2 id="projects-title">Selected projects</h2></div>
             </div>
             <div className="project-list">
               <article className="project-entry">
-                <div className="entry-index">02</div>
-                <div>
-                  <div className="entry-heading"><h3>TSCAgent</h3><span>2025</span></div>
-                  <p className="entry-subtitle">A reproducible agent for multivariate time-series classification</p>
-                  <p>
-                    Retrieves training examples under multiple time- and frequency-domain distances, estimates the
-                    reliability of each metric using training-only calibration, and uses a mathematical ensemble for
-                    prediction. The language model remains an optional explanation layer rather than the decision maker.
-                  </p>
-                  <div className="entry-meta"><span><b>95.56%</b> Accuracy</span><span><b>0.9555</b> Macro F1</span></div>
-                  <a href="https://github.com/6z6z6z6z/TSCAgent" target="_blank" rel="noreferrer">View repository <ArrowUpRight size={13} /></a>
-                </div>
-              </article>
-
-              <article className="project-entry">
-                <div className="entry-index">03</div>
+                <div className="entry-index">01</div>
                 <div>
                   <div className="entry-heading"><h3>Personalized Qwen3-TTS</h3><span>2026</span></div>
                   <p className="entry-subtitle">Low-resource voice adaptation with mixed-context cloning</p>
@@ -146,6 +91,34 @@ export default function Home() {
                   </p>
                   <div className="entry-meta"><span><b>+0.3275</b> anonymous subjective score, M3 over M2</span></div>
                   <a href="https://github.com/6z6z6z6z/qwen3-tts-personalized" target="_blank" rel="noreferrer">View repository <ArrowUpRight size={13} /></a>
+                </div>
+              </article>
+
+              <article className="project-entry">
+                <div className="entry-index">02</div>
+                <div>
+                  <div className="entry-heading"><h3>ContextMTS-Retriever</h3><span>2026</span></div>
+                  <p className="entry-subtitle">Context-enhanced retrieval for time-series forecasting</p>
+                  <p>
+                    Explored whether factual context can complement numerical similarity when retrieving historical
+                    cases. The system combines time-series evidence with frozen Qwen3-0.6B text representations.
+                  </p>
+                  <div className="entry-meta"><span><b>0.7328</b> MASE across 297 chronological queries</span></div>
+                  <a href="https://github.com/6z6z6z6z/ContextMTS-Retriever" target="_blank" rel="noreferrer">View repository <ArrowUpRight size={13} /></a>
+                </div>
+              </article>
+
+              <article className="project-entry">
+                <div className="entry-index">03</div>
+                <div>
+                  <div className="entry-heading"><h3>TSCAgent</h3><span>2025</span></div>
+                  <p className="entry-subtitle">A reproducible agent for multivariate time-series classification</p>
+                  <p>
+                    Retrieves examples under multiple time- and frequency-domain distances, calibrates their reliability
+                    on training data, and uses a mathematical ensemble for prediction with an optional explanation layer.
+                  </p>
+                  <div className="entry-meta"><span><b>95.56%</b> Accuracy</span><span><b>0.9555</b> Macro F1</span></div>
+                  <a href="https://github.com/6z6z6z6z/TSCAgent" target="_blank" rel="noreferrer">View repository <ArrowUpRight size={13} /></a>
                 </div>
               </article>
             </div>
