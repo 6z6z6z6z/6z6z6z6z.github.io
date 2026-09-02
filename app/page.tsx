@@ -28,7 +28,7 @@ export default function Home() {
           </div>
           <div>
             <h2>Zhuang Zhang</h2>
-            <p className="profile-role">Undergraduate researcher in<br />Artificial Intelligence &amp; Data Science</p>
+            <p className="profile-role">Senior undergraduate student in<br />Artificial Intelligence &amp; Data Science</p>
           </div>
           <p className="profile-location"><MapPin size={14} /> Hefei, China</p>
           <div className="profile-links">
@@ -139,7 +139,7 @@ export default function Home() {
               </article>
               <article>
                 <time>Mar 2025 — Jul 2025</time>
-                <div><h3>Student Researcher · “Way of Knowing” Geek Center</h3><p>University of Science and Technology of China</p><p>Explored DSPy-based prompt optimization and financial AI agents.</p></div>
+                <div><h3>Research Practice · “Way of Knowing” Geek Center</h3><p>University of Science and Technology of China</p><p>Explored DSPy-based prompt optimization and financial AI agents.</p></div>
               </article>
             </div>
           </section>
@@ -153,7 +153,6 @@ export default function Home() {
                 <span>2023 — Present</span>
                 <h3>University of Science and Technology of China</h3>
                 <p>B.Eng. candidate in Data Science and Big Data Technology<br />School of Artificial Intelligence and Data Science</p>
-                <div className="academic-stats"><span><b>3.53 / 4.3</b> GPA</span><span><b>85.9 / 100</b> Weighted average</span></div>
               </div>
               <div className="honors-list">
                 <p className="mini-label">SELECTED HONORS</p>

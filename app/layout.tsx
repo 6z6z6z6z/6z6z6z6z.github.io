@@ -4,7 +4,7 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://6z6z6z6z.github.io'),
   title: 'Zhuang Zhang | AI & Data Science',
-  description: 'Academic homepage of Zhuang Zhang, an undergraduate researcher at USTC working on multimodal representation, time-series learning, retrieval-augmented AI, and foundation models.',
+  description: 'Academic homepage of Zhuang Zhang, a senior undergraduate student at USTC interested in multimodal learning, AI agents, reliable machine learning, and foundation models.',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
