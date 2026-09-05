@@ -5,7 +5,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { layoutNextLine, prepareWithSegments, type LayoutCursor } from '@chenglou/pretext';
 import { ArrowUpRight } from 'lucide-react';
-import Image from 'next/image';
+import { FestiveDragon, type Point } from './festive-dragon';
 
 // Text carving and particle rendering retain adaptations from the MIT-licensed
 // PreText Experiments demo. See THIRD_PARTY_NOTICES.md.
@@ -25,11 +25,9 @@ The dragon is the moving context in this page. As it crosses the argument, the t
 const LINE_HEIGHT = 25;
 const MINIMUM_SLOT = 34;
 
-type Point = { x: number; y: number };
 type Size = { width: number; height: number };
 type Interval = { left: number; right: number };
 type Obstacle = Point & { radius: number };
-type Flame = Point & { vx: number; vy: number; life: number; size: number };
 type Prepared = ReturnType<typeof prepareWithSegments>;
 
 const clamp = (value: number, minimum: number, maximum: number) =>
@@ -115,55 +113,14 @@ function layoutColumn(
   return lines;
 }
 
-function transformOffset(
-  centre: Point,
-  offsetX: number,
-  offsetY: number,
-  angle: number,
-  facing: number,
-) {
-  const x = offsetX * facing;
-  return {
-    x: centre.x + x * Math.cos(angle) - offsetY * Math.sin(angle),
-    y: centre.y + x * Math.sin(angle) + offsetY * Math.cos(angle),
-  };
-}
-
-function dragonObstacles(centre: Point, spriteWidth: number, angle: number, facing: number) {
-  const blueprint = [
-    [-0.43, 0.23, 0.08],
-    [-0.32, 0.24, 0.04],
-    [-0.23, 0.13, 0.05],
-    [-0.16, 0.08, 0.065],
-    [-0.04, 0.14, 0.10],
-    [0.07, 0.06, 0.08],
-    [0.035, -0.06, 0.075],
-    [0.06, -0.15, 0.075],
-    [0.15, -0.08, 0.07],
-    [0.26, 0.06, 0.11],
-    [0.35, -0.04, 0.08],
-    [0.33, -0.18, 0.115],
-  ] as const;
-
-  return blueprint.map(([x, y, radius]) => ({
-    ...transformOffset(centre, x * spriteWidth, y * spriteWidth, angle, facing),
-    radius: radius * spriteWidth,
-  }));
-}
-
 export function PretextResearchNote() {
   const stageRef = useRef<HTMLDivElement>(null);
   const lineLayerRef = useRef<HTMLDivElement>(null);
-  const dragonRef = useRef<HTMLDivElement>(null);
-  const flameCanvasRef = useRef<HTMLCanvasElement>(null);
-  const positionRef = useRef<Point>({ x: 0, y: 0 });
+  const dragonCanvasRef = useRef<HTMLCanvasElement>(null);
+  const modelRef = useRef<FestiveDragon | null>(null);
   const targetRef = useRef<Point>({ x: 0, y: 0 });
-  const angleRef = useRef(0);
-  const facingRef = useRef(1);
   const pointerActiveRef = useRef(false);
   const firingRef = useRef(false);
-  const burstUntilRef = useRef(0);
-  const flamesRef = useRef<Flame[]>([]);
   const pausedRef = useRef(false);
   const [isPaused, setIsPaused] = useState(false);
   const [size, setSize] = useState<Size>({ width: 0, height: 0 });
@@ -193,173 +150,75 @@ export function PretextResearchNote() {
 
   useEffect(() => {
     const lineLayer = lineLayerRef.current;
-    const dragon = dragonRef.current;
-    const flameCanvas = flameCanvasRef.current;
-    if (!lineLayer || !dragon || !flameCanvas || size.width === 0 || size.height === 0) return;
-    const flameContext = flameCanvas.getContext('2d');
-    if (!flameContext) return;
-
+    const canvas = dragonCanvasRef.current;
+    const stage = stageRef.current;
+    if (!lineLayer || !canvas || !stage || !size.width || !size.height) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     const narrow = size.width < 680;
-    const font = narrow
-      ? '14px Georgia, "Times New Roman", serif'
-      : '16px "Iowan Old Style", "Palatino Linotype", Georgia, serif';
-    const preparedLeft = prepareWithSegments(TEXT_LEFT, font);
-    const preparedRight = prepareWithSegments(narrow ? `${TEXT_LEFT}\n\n${TEXT_RIGHT}` : TEXT_RIGHT, font);
+    const font = narrow ? '14px Georgia, "Times New Roman", serif' : '16px "Iowan Old Style", "Palatino Linotype", Georgia, serif';
+    const mobileText = 'Good ideas often start with a little curiosity. In my time-series projects, I explored how numerical patterns and their context can help us find useful historical neighbours. A similar shape is a clue; the surrounding situation gives it meaning. Here, a little dragon makes space between the lines. Follow its winding path, or pause for a quiet read.';
+    const left = prepareWithSegments(narrow ? mobileText : TEXT_LEFT, font);
+    const right = prepareWithSegments(TEXT_RIGHT, font);
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const spriteWidth = narrow ? Math.min(size.width * 0.82, 360) : Math.min(size.width * 0.51, 530);
-    const spriteHeight = spriteWidth / 1.5;
-    flameCanvas.width = Math.round(size.width * dpr);
-    flameCanvas.height = Math.round(size.height * dpr);
-    flameContext.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    const start = { x: size.width * 0.62, y: size.height * 0.53 };
-    targetRef.current = start;
-    positionRef.current = start;
-    angleRef.current = 0;
-    facingRef.current = 1;
-    flamesRef.current = [];
+    canvas.width = Math.round(size.width * dpr);
+    canvas.height = Math.round(size.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const dragon = new FestiveDragon(size.width, size.height);
+    modelRef.current = dragon;
+    targetRef.current = { x: size.width * 0.64, y: size.height * 0.55 };
     lineLayer.replaceChildren();
-    const linePool: HTMLDivElement[] = [];
-
-    const lineElement = (index: number) => {
-      while (linePool.length <= index) {
-        const element = document.createElement('div');
-        element.className = 'dragon-line';
-        lineLayer.appendChild(element);
-        linePool.push(element);
-      }
-      return linePool[index];
-    };
-
-    let animationFrame = 0;
+    const pool: HTMLDivElement[] = [];
+    let frame = 0;
     let previousTime = performance.now();
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    const render = (timestamp: number) => {
-      const delta = pausedRef.current ? 0 : Math.min(2, Math.max(0.5, (timestamp - previousTime) / 16.67));
-      previousTime = timestamp;
-
-      if (!pointerActiveRef.current && !reducedMotion && !pausedRef.current) {
-        targetRef.current = {
-          x: size.width * (0.51 + Math.sin(timestamp * 0.00024) * 0.25),
-          y: size.height * (0.53 + Math.sin(timestamp * 0.00041 + 1.1) * 0.19),
-        };
-      }
-
-      const position = positionRef.current;
-      const safeTarget = {
-        x: clamp(targetRef.current.x, spriteWidth * 0.5, size.width - spriteWidth * 0.5),
-        y: clamp(targetRef.current.y, spriteHeight * 0.5 + 84, size.height - spriteHeight * 0.5 - 36),
-      };
-      const dx = safeTarget.x - position.x;
-      const dy = safeTarget.y - position.y;
-      if (!pausedRef.current && Math.abs(dx) > 10) facingRef.current = dx >= 0 ? 1 : -1;
-      position.x += dx * 0.045 * delta;
-      position.y += dy * 0.045 * delta;
-      const desiredAngle = clamp(Math.atan2(dy, Math.max(80, Math.abs(dx))) * 0.72, -0.24, 0.24);
-      angleRef.current += (desiredAngle - angleRef.current) * 0.055 * delta;
-
-      dragon.style.width = `${spriteWidth}px`;
-      dragon.style.height = `${spriteHeight}px`;
-      dragon.style.transform = `translate3d(${position.x - spriteWidth / 2}px, ${position.y - spriteHeight / 2}px, 0) rotate(${angleRef.current}rad) scaleX(${facingRef.current})`;
-
-      const obstacles = dragonObstacles(position, spriteWidth, angleRef.current, facingRef.current);
-      const horizontalPadding = narrow ? 26 : 46;
-      const top = narrow ? 98 : 88;
-      const bottom = size.height - 42;
-      const gap = narrow ? 0 : 54;
-      const columnWidth = (size.width - horizontalPadding * 2 - gap) / (narrow ? 1 : 2);
-      const lines = narrow
-        ? layoutColumn(preparedRight, horizontalPadding, size.width - horizontalPadding, top, bottom, obstacles)
-        : [
-            ...layoutColumn(
-              preparedLeft,
-              horizontalPadding,
-              horizontalPadding + columnWidth,
-              top,
-              bottom,
-              obstacles,
-            ),
-            ...layoutColumn(
-              preparedRight,
-              horizontalPadding + columnWidth + gap,
-              size.width - horizontalPadding,
-              top,
-              bottom,
-              obstacles,
-            ),
-          ];
-
-      lines.forEach((line, index) => {
-        const element = lineElement(index);
-        element.textContent = line.text;
-        element.style.left = `${line.x}px`;
-        element.style.top = `${line.y}px`;
-        element.style.display = 'block';
-      });
-      for (let index = lines.length; index < linePool.length; index += 1) {
-        linePool[index].style.display = 'none';
-      }
-
-      const heading = facingRef.current > 0 ? angleRef.current : Math.PI + angleRef.current;
-      const head = transformOffset(
-        position,
-        spriteWidth * 0.45,
-        -spriteWidth * 0.16,
-        angleRef.current,
-        facingRef.current,
-      );
-      if (!pausedRef.current && (firingRef.current || timestamp < burstUntilRef.current)) {
-        for (let index = 0; index < (narrow ? 3 : 6); index += 1) {
-          const spread = heading + (Math.random() - 0.5) * 0.42;
-          const speed = 6 + Math.random() * 8;
-          flamesRef.current.push({
-            x: head.x,
-            y: head.y,
-            vx: Math.cos(spread) * speed,
-            vy: Math.sin(spread) * speed,
-            life: 1,
-            size: 4 + Math.random() * 7,
+    let lastLayout = -Infinity;
+    let firstPaint = true;
+    let inView = true;
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const visibility = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; });
+    visibility.observe(stage);
+    const render = (time: number) => {
+      const dt = Math.min(0.033, (time - previousTime) / 1000);
+      previousTime = time;
+      if ((!pausedRef.current && inView && !document.hidden) || firstPaint) {
+        dragon.update(firstPaint ? 0 : dt, pointerActiveRef.current ? targetRef.current : null, firingRef.current, motionPreference.matches);
+        ctx.clearRect(0, 0, size.width, size.height);
+        dragon.draw(ctx);
+        if (time - lastLayout > 32 || firstPaint) {
+          const padding = narrow ? 26 : 46;
+          const gap = 54;
+          const col = (size.width - 2 * padding - gap) / 2;
+          const obstacles = dragon.obstacles();
+          const lines = narrow
+            ? layoutColumn(left, padding, size.width - padding, 108, size.height - 50, obstacles)
+            : [
+              ...layoutColumn(left, padding, padding + col, 104, size.height - 50, obstacles),
+              ...layoutColumn(right, padding + col + gap, size.width - padding, 104, size.height - 50, obstacles),
+            ];
+          lines.forEach((line, index) => {
+            if (!pool[index]) {
+              pool[index] = document.createElement('div');
+              pool[index].className = 'dragon-line';
+              lineLayer.appendChild(pool[index]);
+            }
+            const el = pool[index];
+            if (el.textContent !== line.text) el.textContent = line.text;
+            el.style.left = line.x + 'px';
+            el.style.top = line.y + 'px';
+            el.style.display = 'block';
           });
+          for (let i = lines.length; i < pool.length; i++) pool[i].style.display = 'none';
+          lastLayout = time;
         }
+        firstPaint = false;
       }
-
-      flameContext.clearRect(0, 0, size.width, size.height);
-      for (let index = flamesRef.current.length - 1; index >= 0; index -= 1) {
-        const flame = flamesRef.current[index];
-        flame.x += flame.vx * delta;
-        flame.y += flame.vy * delta;
-        flame.vy += 0.025 * delta;
-        flame.life -= 0.018 * delta;
-        flame.vx *= 0.99;
-        if (flame.life <= 0) {
-          flamesRef.current.splice(index, 1);
-          continue;
-        }
-        const radius = flame.size * flame.life * 1.7;
-        const gradient = flameContext.createRadialGradient(
-          flame.x,
-          flame.y,
-          0,
-          flame.x,
-          flame.y,
-          radius,
-        );
-        gradient.addColorStop(0, `rgba(255,245,184,${flame.life.toFixed(2)})`);
-        gradient.addColorStop(0.28, `rgba(255,151,38,${(flame.life * 0.95).toFixed(2)})`);
-        gradient.addColorStop(1, 'rgba(118,20,0,0)');
-        flameContext.fillStyle = gradient;
-        flameContext.beginPath();
-        flameContext.arc(flame.x, flame.y, radius, 0, Math.PI * 2);
-        flameContext.fill();
-      }
-
-      animationFrame = requestAnimationFrame(render);
+      frame = requestAnimationFrame(render);
     };
-
-    animationFrame = requestAnimationFrame(render);
+    frame = requestAnimationFrame(render);
     return () => {
-      cancelAnimationFrame(animationFrame);
+      cancelAnimationFrame(frame);
+      visibility.disconnect();
+      modelRef.current = null;
       lineLayer.replaceChildren();
     };
   }, [size]);
@@ -381,7 +240,7 @@ export function PretextResearchNote() {
         ref={stageRef}
         role="application"
         tabIndex={0}
-        aria-label="The Jade Dragon. Move the pointer or use arrow keys to guide it through the text. Press and hold, or press Enter, for a golden breath. Press Tab to leave the interaction."
+        aria-label="Little Loong. Move the pointer or use arrow keys to guide the dragon. Hold and release to celebrate, or press Enter. Press Tab to leave."
         onPointerEnter={() => {
           pointerActiveRef.current = true;
         }}
@@ -431,21 +290,18 @@ export function PretextResearchNote() {
           }
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            burstUntilRef.current = performance.now() + 620;
+            if (!pausedRef.current) modelRef.current?.celebrate();
           }
         }}
       >
         <div className="dragon-atmosphere" aria-hidden="true" />
         <div className="dragon-title" aria-hidden="true">
-          <h3>The Jade Dragon</h3>
-          <p>guide the dragon · hold for a golden breath</p>
+          <h3>Little Loong, a little luck.</h3>
+          <p>move to play · hold, then release for a little celebration</p>
         </div>
         <div className="dragon-lines" ref={lineLayerRef} aria-hidden="true" />
-        <div className="dragon-sprite" ref={dragonRef} aria-hidden="true">
-          <Image src="/assets/retrieval-dragon.png" alt="" width={1536} height={1024} sizes="(max-width: 680px) 82vw, 530px" draggable={false} />
-        </div>
-        <canvas className="dragon-flames" ref={flameCanvasRef} aria-hidden="true" />
-        <p className="dragon-hint" aria-hidden="true">MOVE · HOLD · LET THE CONTEXT RESHAPE THE PAGE</p>
+        <canvas className="dragon-canvas" ref={dragonCanvasRef} aria-hidden="true" />
+        <p className="dragon-hint" aria-hidden="true">A LITTLE CURIOSITY GOES A LONG WAY</p>
       </div>
 
       <p className="sr-only">{TEXT_LEFT} {TEXT_RIGHT}</p>
@@ -455,7 +311,8 @@ export function PretextResearchNote() {
         <a href="https://github.com/chenglou/pretext" target="_blank" rel="noreferrer">
           Pretext
         </a>{' '}
-        layout engine; the dragon artwork is an original generated asset.
+        layout engine. Movement adapted from{' '}
+        <a href="https://github.com/argonautcode/animal-proc-anim" target="_blank" rel="noreferrer">Argonaut’s procedural animation</a>.
       </p>
       <button
         type="button"

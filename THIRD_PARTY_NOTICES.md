@@ -58,8 +58,36 @@ SOFTWARE.
 
 ## Original dragon artwork
 
-The jade Chinese dragon artwork was generated for this website. It is not an
-official asset from a film, game, or other franchise.
+The retained jade dragon PNG was generated for an earlier website iteration.
+The current Little Loong uses a procedural canvas body and does not load that image.
+
+## Argonaut — animal-proc-anim
+
+The Little Loong spine constraint solver and continuous body outline adapt
+the Chain and Snake examples in https://github.com/argonautcode/animal-proc-anim.
+Chinese-dragon styling, steering, action states, and analytic limbs were added for this site.
+
+MIT License
+
+Copyright (c) 2024 argonaut
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ## PreText Experiments — Dragon demo
 
