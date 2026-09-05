@@ -74,17 +74,25 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .pretext-dragon-heading h2 { max-width: 680px; margin: 0; font-family: var(--serif); font-size: 35px; line-height: 1.16; font-weight: 600; letter-spacing: -.027em; }
 .pretext-dragon-heading > a { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px; padding-bottom: 2px; border-bottom: 1px solid var(--line-strong); color: var(--muted); font-size: 12px; transition: color .18s ease, border-color .18s ease; }
 .pretext-dragon-heading > a:hover { color: var(--accent); border-color: var(--accent); }
-.dragon-stage { position: relative; height: clamp(520px, 57vw, 600px); overflow: hidden; border: 1px solid rgba(255,255,255,.09); border-radius: 4px; background: #08090d; color: #d0ccc4; cursor: none; touch-action: none; isolation: isolate; box-shadow: 0 26px 62px rgba(10,10,14,.22); }
+.dragon-stage { position: relative; height: clamp(540px, 58vw, 620px); overflow: hidden; border: 1px solid rgba(220,180,105,.15); border-radius: 6px; background: radial-gradient(circle at 52% 47%, #1b1812 0%, #0c0e0e 48%, #050608 100%); color: #d0ccc4; cursor: none; touch-action: none; isolation: isolate; box-shadow: 0 28px 72px rgba(10,10,14,.28), inset 0 0 80px rgba(0,0,0,.32); }
 .dragon-stage:focus-visible { outline: 3px solid #a5d96f; outline-offset: 4px; }
-.dragon-atmosphere { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(circle at 50% 46%, rgba(35,45,37,.25), transparent 46%), linear-gradient(115deg, rgba(255,255,255,.016), transparent 34%, rgba(121,85,45,.04)); }
-.dragon-atmosphere::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, transparent 37%, rgba(3,4,7,.7) 100%); }
+.dragon-atmosphere { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(circle at 21% 25%, rgba(30,92,85,.12), transparent 27%), radial-gradient(circle at 78% 68%, rgba(160,104,42,.12), transparent 28%), linear-gradient(115deg, rgba(255,255,255,.018), transparent 35%, rgba(121,85,45,.035)); }
+.dragon-atmosphere::before { content: ''; position: absolute; inset: 0; opacity: .28; background-image: radial-gradient(circle, rgba(236,205,143,.55) 0 1px, transparent 1.5px); background-size: 83px 83px; background-position: 17px 29px; mask-image: linear-gradient(to bottom, black, transparent 78%); }
+.dragon-atmosphere::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, transparent 35%, rgba(3,4,7,.78) 100%); }
 .dragon-title { position: absolute; z-index: 20; top: 20px; left: 50%; width: min(82%, 560px); transform: translateX(-50%); text-align: center; pointer-events: none; }
-.dragon-title h3 { margin: 0; color: #89d56d; font-family: var(--serif); font-size: clamp(24px, 3.8vw, 35px); font-weight: 400; line-height: 1.2; letter-spacing: .07em; text-shadow: 0 0 30px rgba(86,199,95,.22); }
+.dragon-title h3 { margin: 0; color: #d6b46f; font-family: var(--serif); font-size: clamp(24px, 3.8vw, 35px); font-weight: 400; line-height: 1.2; letter-spacing: .07em; text-shadow: 0 0 32px rgba(214,180,111,.18); }
 .dragon-title p { margin: 4px 0 0; color: rgba(255,255,255,.27); font-size: 12px; letter-spacing: .06em; }
 .dragon-lines { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-.dragon-line { position: absolute; white-space: pre; color: #c8c4bc; font: 16px/25px "Iowan Old Style", "Palatino Linotype", Georgia, serif; user-select: none; opacity: .88; }
-.dragon-segment { position: absolute; z-index: 10; border-radius: 50%; pointer-events: none; will-change: transform; }
-.dragon-eye { position: absolute; z-index: 12; width: 10px; height: 10px; border-radius: 50%; background: radial-gradient(circle, #fff 15%, #ffd700 40%, #ff4400 70%, transparent 75%); pointer-events: none; will-change: transform; }
+.dragon-line { position: absolute; white-space: pre; color: #d0cbc1; font: 16px/25px "Iowan Old Style", "Palatino Linotype", Georgia, serif; user-select: none; opacity: .86; text-shadow: 0 1px 12px rgba(0,0,0,.75); }
+.dragon-sprite { position: absolute; z-index: 10; left: 0; top: 0; pointer-events: none; will-change: transform; transform-origin: center; }
+.dragon-sprite::after { content: ''; position: absolute; inset: 20% 14% 13%; z-index: -1; border-radius: 50%; background: rgba(22,145,122,.12); filter: blur(34px); }
+.dragon-sprite img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; filter: saturate(.85) drop-shadow(0 14px 22px rgba(0,0,0,.7)) drop-shadow(0 0 14px rgba(27,155,133,.12)); animation: dragon-breathe 4.8s ease-in-out infinite; }
+.dragon-stage.is-paused .dragon-sprite img { animation-play-state: paused; }
+.dragon-footer { display: flex; align-items: start; justify-content: space-between; gap: 20px; }
+.dragon-motion-toggle { flex-shrink: 0; border: 1px solid var(--line-strong); border-radius: 4px; padding: 7px 11px; background: transparent; color: var(--muted); cursor: pointer; font: inherit; font-size: 14px; }
+.dragon-motion-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.dragon-motion-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@keyframes dragon-breathe { 0%, 100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-3px) scaleY(1.014); } }
 .dragon-flames { position: absolute; inset: 0; z-index: 15; width: 100%; height: 100%; pointer-events: none; }
 .dragon-hint { position: absolute; z-index: 20; left: 50%; bottom: 15px; transform: translateX(-50%); margin: 0; color: rgba(255,255,255,.2); font-size: 11px; letter-spacing: .12em; white-space: nowrap; pointer-events: none; }
 .pretext-dragon-caption { max-width: 760px; margin: 0; color: var(--faint); font-size: 12px; line-height: 1.65; }
@@ -191,4 +199,5 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
 @media (prefers-reduced-motion: reduce) {
   .dragon-stage { cursor: crosshair; }
+  .dragon-sprite img { animation: none; }
 }

@@ -56,10 +56,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+## Original dragon artwork
+
+The jade Chinese dragon artwork was generated for this website. It is not an
+official asset from a film, game, or other franchise.
+
 ## PreText Experiments — Dragon demo
 
-The interactive dragon's visual treatment, segment-following motion, text
-carving, and fire-particle effect are adapted from the MIT-licensed **Dragon**
+The interactive dragon's text carving and fire-particle effect retain
+adaptations from the MIT-licensed **Dragon**
 demo in PreText Experiments:
 
 https://github.com/qtakmalay/PreTextExperiments
