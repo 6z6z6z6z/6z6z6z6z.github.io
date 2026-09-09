@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { ArrowUpRight, Download, Mail, MapPin } from 'lucide-react';
-import { PretextResearchNote } from './components/pretext-research-note';
+import { Playground } from './components/playground';
+import { ProjectVisual } from './components/project-visual';
 
 const navItems = [
   { label: 'About', href: '#about' },
@@ -24,9 +25,10 @@ export default function Home() {
 
       <div className="academic-layout">
         <aside className="profile-card" aria-label="Profile">
-          <div className="portrait">
+          <a className="portrait" href="/profile.jpg" target="_blank" rel="noreferrer" aria-label="View full photograph at Huangshan">
             <Image src="/profile.jpg" alt="Zhuang Zhang at Huangshan" fill priority sizes="240px" />
-          </div>
+          </a>
+          <span className="photo-caption">A moment in Huangshan ↗</span>
           <div>
             <h2>Zhuang Zhang</h2>
             <p className="profile-role">Senior undergraduate student in<br />Artificial Intelligence &amp; Data Science</p>
@@ -48,35 +50,21 @@ export default function Home() {
 
         <div className="content-column">
           <section className="intro" id="about">
-            <p className="section-label">ABOUT</p>
-            <h1>I explore how foundation models can understand, connect, and act on complex information.</h1>
+            <p className="section-label">USTC · SENIOR UNDERGRADUATE</p>
+            <h1>Hi, I’m Zhuang.<br /><span>Curious about intelligence.</span><br />Happy building things.</h1>
             <div className="intro-copy">
               <p>
-                I am an undergraduate student at the University of Science and Technology of China (USTC),
-                studying Data Science and Big Data Technology. I am interested in foundation models, multimodal
-                learning, intelligent agents, and the representations that allow models to work across different data types.
+                I’m a senior undergraduate at the University of Science and Technology of China,
+                studying Data Science and Big Data Technology. I explore AI through models,
+                experiments, and things I build.
               </p>
               <p>
-                My past projects span time-series learning, retrieval-augmented modeling, and personalized speech
-                generation. I enjoy turning an early idea into a complete, testable system and learning from both
-                successful and unsuccessful experiments.
+                My projects span multimodal learning, retrieval, agents, and personalized speech.
+                I like turning a question into something I can test—and learning from what happens next.
               </p>
             </div>
             <div className="status-line"><i /> Open to graduate research opportunities</div>
           </section>
-
-          <section className="agenda" aria-labelledby="agenda-title">
-            <div className="section-title-row compact-title">
-              <div><p className="section-label">INTERESTS</p><h2 id="agenda-title">How I approach AI research</h2></div>
-            </div>
-            <div className="agenda-grid">
-              <article><span>01</span><h3>Represent</h3><p>Learn useful structures from numerical, textual, and multimodal signals.</p></article>
-              <article><span>02</span><h3>Reason &amp; act</h3><p>Use foundation models and agents to connect information with concrete tasks.</p></article>
-              <article><span>03</span><h3>Evaluate</h3><p>Build reproducible systems whose gains, limitations, and failure modes can be examined.</p></article>
-            </div>
-          </section>
-
-          <PretextResearchNote />
 
           <section className="projects-section" id="projects" aria-labelledby="projects-title">
             <div className="section-title-row">
@@ -84,7 +72,7 @@ export default function Home() {
             </div>
             <div className="project-list">
               <article className="project-entry">
-                <div className="entry-index">01</div>
+                <ProjectVisual kind="voice" />
                 <div>
                   <div className="entry-heading"><h3>Personalized Qwen3-TTS</h3><span>2026</span></div>
                   <p className="entry-subtitle">Low-resource voice adaptation with mixed-context cloning</p>
@@ -92,13 +80,13 @@ export default function Home() {
                     Compared zero-shot inference, LoRA, and full supervised fine-tuning for a single-speaker setting,
                     then explored a hybrid inference path that combines parameter-level adaptation with reference context.
                   </p>
-                  <div className="entry-meta"><span><b>+0.3275</b> anonymous subjective score, M3 over M2</span></div>
+                  <div className="entry-meta"><span>Speech synthesis</span><span>Model adaptation</span></div>
                   <a href="https://github.com/6z6z6z6z/qwen3-tts-personalized" target="_blank" rel="noreferrer">View repository <ArrowUpRight size={13} /></a>
                 </div>
               </article>
 
               <article className="project-entry">
-                <div className="entry-index">02</div>
+                <ProjectVisual kind="retrieval" />
                 <div>
                   <div className="entry-heading"><h3>ContextMTS-Retriever</h3><span>2026</span></div>
                   <p className="entry-subtitle">Context-enhanced retrieval for time-series forecasting</p>
@@ -106,13 +94,13 @@ export default function Home() {
                     Explored whether factual context can complement numerical similarity when retrieving historical
                     cases. The system combines time-series evidence with frozen Qwen3-0.6B text representations.
                   </p>
-                  <div className="entry-meta"><span><b>0.7328</b> MASE across 297 chronological queries</span></div>
+                  <div className="entry-meta"><span>Multimodal retrieval</span><span>Time series</span></div>
                   <a href="https://github.com/6z6z6z6z/ContextMTS-Retriever" target="_blank" rel="noreferrer">View repository <ArrowUpRight size={13} /></a>
                 </div>
               </article>
 
               <article className="project-entry">
-                <div className="entry-index">03</div>
+                <ProjectVisual kind="classification" />
                 <div>
                   <div className="entry-heading"><h3>TSCAgent</h3><span>2025</span></div>
                   <p className="entry-subtitle">A reproducible agent for multivariate time-series classification</p>
@@ -120,7 +108,7 @@ export default function Home() {
                     Retrieves examples under multiple time- and frequency-domain distances, calibrates their reliability
                     on training data, and uses a mathematical ensemble for prediction with an optional explanation layer.
                   </p>
-                  <div className="entry-meta"><span><b>95.56%</b> Accuracy</span><span><b>0.9555</b> Macro F1</span></div>
+                  <div className="entry-meta"><span>Classification</span><span>Evidence aggregation</span></div>
                   <a href="https://github.com/6z6z6z6z/TSCAgent" target="_blank" rel="noreferrer">View repository <ArrowUpRight size={13} /></a>
                 </div>
               </article>
@@ -176,10 +164,12 @@ export default function Home() {
 
           <section className="contact-section">
             <p className="section-label">CONTACT</p>
-            <h2>Interested in representation, retrieval, or multimodal AI?</h2>
+            <h2>Good ideas start<br />with a conversation.</h2>
             <p>I would be glad to discuss research ideas, graduate opportunities, or open-source collaboration.</p>
             <a href="mailto:zz6666@mail.ustc.edu.cn">zz6666@mail.ustc.edu.cn <ArrowUpRight size={15} /></a>
           </section>
+
+          <Playground />
 
           <footer className="page-footer">
             <span>© 2026 Zhuang Zhang</span><a href="#top">Back to top ↑</a>
