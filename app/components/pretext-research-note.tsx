@@ -4,7 +4,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { layoutNextLine, prepareWithSegments, type LayoutCursor } from '@chenglou/pretext';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from './icons';
 import { FestiveDragon, type Point } from './festive-dragon';
 
 // Text carving and particle rendering retain adaptations from the MIT-licensed
@@ -329,3 +329,4 @@ export function PretextResearchNote() {
     </section>
   );
 }
+
