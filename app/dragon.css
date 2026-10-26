@@ -1,0 +1,24 @@
+.pretext-dragon { display: flex; flex-direction: column; gap: 18px; }
+.pretext-dragon-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; }
+.pretext-dragon-heading .section-label { margin-bottom: 5px; }
+.pretext-dragon-heading h2 { max-width: 680px; margin: 0; font-family: var(--sans); font-size: 35px; line-height: 1.16; font-weight: 600; letter-spacing: -.027em; }
+.pretext-dragon-heading > a { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px; padding-bottom: 2px; border-bottom: 1px solid var(--line-strong); color: var(--muted); font-size: 12px; transition: color .18s ease, border-color .18s ease; }
+.pretext-dragon-heading > a:hover { color: var(--accent); border-color: var(--accent); }
+.dragon-stage { position: relative; height: clamp(560px, 58vw, 640px); overflow: hidden; border: 1px solid #eadfcb; border-radius: 12px; background: #fff9ef; color: #756452; cursor: crosshair; touch-action: pan-y; isolation: isolate; box-shadow: 0 12px 32px rgba(98,70,30,.05); }
+.dragon-stage:focus-visible { outline: 3px solid #c4533f; outline-offset: 4px; }
+.dragon-atmosphere { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: transparent; }
+.dragon-title { position: absolute; z-index: 20; top: 24px; left: 50%; width: min(90%, 560px); transform: translateX(-50%); text-align: center; pointer-events: none; }
+.dragon-title h3 { margin: 0; color: #b94b39; font-family: var(--sans); font-size: clamp(24px, 3.5vw, 32px); font-weight: 400; line-height: 1.2; letter-spacing: -.02em; }
+.dragon-title p { margin: 7px 0 0; color: #927553; font-size: 13px; }
+.dragon-lines { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.dragon-line { position: absolute; white-space: pre; color: #786b5c; font: 16px/25px var(--sans); user-select: none; }
+.dragon-canvas { position: absolute; inset: 0; z-index: 10; width: 100%; height: 100%; pointer-events: none; }
+.dragon-footer { display: flex; align-items: start; justify-content: space-between; gap: 20px; }
+.dragon-motion-toggle { flex-shrink: 0; border: 1px solid var(--line-strong); border-radius: 4px; padding: 7px 11px; background: transparent; color: var(--muted); cursor: pointer; font: inherit; font-size: 14px; }
+.dragon-motion-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.dragon-motion-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.dragon-hint { position: absolute; z-index: 20; left: 50%; bottom: 17px; transform: translateX(-50%); margin: 0; color: #ad8b61; font-size: 11px; letter-spacing: .13em; white-space: nowrap; pointer-events: none; }
+.pretext-dragon-caption { max-width: 760px; margin: 0; color: var(--faint); font-size: 12px; line-height: 1.65; }
+.pretext-dragon-caption a { border-bottom: 1px solid var(--line); color: var(--muted); transition: color .18s ease, border-color .18s ease; }
+.pretext-dragon-caption a:hover { color: var(--accent); border-color: var(--accent); }
+
